@@ -27,6 +27,17 @@ public class Blackjack
             System.out.println("Your cards: " + playerHand);
             System.out.println("Dealer's face-up card: " + dealerHand.getFirst());
 
+            if (playerFunds >= bet * 2) {
+                System.out.print("Double down? (y/n): ");
+                boolean doubleDown = console.nextLine().equalsIgnoreCase("y");
+
+                if (doubleDown) {
+                    playerFunds -= bet;
+                    bet *= 2;
+                }
+            }
+
+
             while (true) {
                 System.out.print("Hit or Stand? (h/s): ");
                 String action = console.nextLine().toLowerCase();
@@ -61,7 +72,11 @@ public class Blackjack
 
                 if (dealerTotal > 21 || playerTotal > dealerTotal) {
                     System.out.println("You win!");
-                    playerFunds += bet * 2;
+                    if (playerTotal == 21 && playerHand.size() == 2) {
+                        playerFunds += bet * 2.5;
+                    } else {
+                        playerFunds += bet * 2;
+                    }
                 } else if (playerTotal == dealerTotal) {
                     System.out.println("It's a tie!");
                     playerFunds += bet;
